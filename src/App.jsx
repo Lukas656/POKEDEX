@@ -3,36 +3,40 @@ import "./App.css";
 import Navbar from "./components/Navbar";
 import Searchbar from "./components/Searchbar";
 import Pokedex from "./components/Pokedex";
-import { getpokemons } from "./data/api";
-
+import { getpokemons, getpokemonData } from "./data/api";
 
 function App() {
-
+  const [page, setPage] = useState(0);
+  const [total, setTotalPages] = useState(0);
   const [loading, setLoading] = useState(false);
   const [pokemons, setPokemons] = useState([]);
+  const itensPerPage = 25;
+  const fetchPokemons = async () => {
+    try {
+      setLoading(true);
+      const data = await getpokemons(itensPerPage, itensPerPage * page);
 
-  const fetchPokemons = async()=>{
-      try {
-        setLoading(true)
-        const result = await getpokemons()
-        setPokemons(result);
-        setLoading(false);
-                 
-      } catch (error) {
-        console.log("fetchPokemons error: ", error);
-      }
-  }
+      const promisses = data.results.map(async (pokemon) => {
+        return await getpokemonData(pokemon.url);
+      });
+      const results = await Promise.all(promisses);
+      setPokemons(results);
+      setLoading(false);
+      setTotalPages(Math.ceil(data.count/ itensPerPage))
+    } catch (error) {
+      console.log("fetchPokemons error: ", error);
+    }
+  };
 
   useEffect(() => {
-    console.log("carregandou");
     fetchPokemons();
-  }, []);
+  }, [page]);
 
   return (
     <>
       <Navbar />
       <Searchbar />
-      <Pokedex pokemons={pokemons} loading={loading} />
+      <Pokedex pokemons={pokemons} loading={loading} page={page} totalPages={total} setPage={setPage}/>
     </>
   );
 }

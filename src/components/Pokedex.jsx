@@ -1,32 +1,40 @@
 import React from "react";
-//import Pokemon from "./Pokemon.jsx";
+import Pokemon from "./Pokemon.jsx";
+import Pagination from "./Pagination.jsx";
 
 const Pokedex = (props) => {
-  const { pokemons, loading } = props;
-
-
-
+  const { pokemons, loading, page, totalPages, setPage} = props;
+  const onLeftClickhandler=()=>{
+    if(page > 0){
+      setPage(page-1)
+    }
+  }
+  const onRightClickhandler=()=>{
+    if(page+1 !== totalPages){
+      setPage(page+1)
+    }
+  }
 
   return (
     <div>
       <section className="pokedex-header">
         <h1>Pokedex</h1>
-        <div>Paginação</div>
+        <Pagination 
+        page={page+1}
+        totalPages={totalPages}
+        onLeftClick={onLeftClickhandler}
+        onRightClick={onRightClickhandler}
+        />
       </section>
       {loading ? (
         <div>Carregando, segura fera...</div>
       ) : (
         <div className="pokedex-grid">
-          {pokemons && pokemons.map((pokemon, index) => {
-            console.log(pokemons);
-            return (
-              <div >
-                <div>nome: {pokemon.name}</div>
-                {console.log(pokemon.name)}
-                <img alt={pokemon.name} src={pokemon.url} />
-              </div>
-            );
-          })}
+          {pokemons &&
+            pokemons.map((pokemon, i) => {
+              console.log(pokemons);
+              return <Pokemon key={i} pokemon={pokemon} />;
+            })}
         </div>
       )}
     </div>
