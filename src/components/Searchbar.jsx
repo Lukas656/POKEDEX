@@ -1,56 +1,29 @@
-import React, { useState } from "react";
-import { searchPokemon } from "../data/api";
+import React, {useState} from "react";
 
-const Searchbar = () => {
-  const [search, setSearch] = useState("dito");
-  const [pokemon, setPokemon] = useState();
+const Searchbar = (props) => {
+    const [search, setSearch] = useState("dito")
+    const {onSearch} = props
+    const onChangeHandler = (e) => {
+        setSearch(e.target.value)
+        if(e.target.value.length === 0) {
+            onSearch(undefined)
+        }
+    }
 
-  const onChangeHandler = (e) => {
-    setSearch(e.target.value);
-  };
+    const onButtonClickHandler = () => {
+        onSearch(search)
+    }
 
-  const onButtonClick = () => {
-    onSearchHandler(search);
-  };
-
-  const onSearchHandler = async (pokemon) => {
-    const result = await searchPokemon(pokemon);
-    setPokemon(result);
-    console.log(result);
-  };
-
-  return (
-    <div className="searchbar-container">
-      <div className="searchbar">
-        <input placeholder="Buscar Pokemon" onChange={onChangeHandler} />
-      </div>
-
-      <div>
-        <button className="search-btn" onClick={onButtonClick}>
-          Buscar
-        </button>
-      </div>
-      <br />
-      <div className="">
-        {pokemon ? (
-          <div>
-            <h1>Nome:{pokemon.name.toUpperCase()}</h1>
-            <h2>
-              {pokemon.types.map((type, i) => {
-                return (
-                  <div key={i} className="pokemon-type-text">
-                    {type.type.name.toUpperCase()}
-                  </div>
-                );
-              })}
-            </h2>
-              <h2>Peso:{pokemon.weight}</h2>
-            <img src={pokemon.sprites.front_default} alt={pokemon.name} />
-          </div>
-        ) : null}
-      </div>
-    </div>
-  );
-};
+    return (
+        <div className="searchbar-container">
+            <div className="searchbar">
+                <input placeholder="Buscar pokemon" onChange={onChangeHandler} />
+            </div>
+            <div className="searchbar-btn">
+                <button onClick={onButtonClickHandler} >Buscar</button>
+            </div>
+        </div>
+    )
+}
 
 export default Searchbar;
