@@ -11,7 +11,7 @@ const Searchbar = (props) => {
     }
 
     const onButtonClickHandler = () => {
-        onSearch(search)
+        onSearch(search.toLowerCase())
     }
 
     return (
