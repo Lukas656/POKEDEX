@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar";
 import Pokedex from "./components/Pokedex";
 import Searchbar from "./components/Searchbar";
 import { FavoriteProvider } from "./contexts/favoritesContext";
+import Footer from "./components/layout/Footer";
 
 const favoritesKey = "f";
 
@@ -101,6 +102,7 @@ function App() {
           />
         )}
       </div>
+      <Footer/>
     </FavoriteProvider>
   );
 }
