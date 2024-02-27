@@ -1,6 +1,6 @@
 .footer {
-    border-top: 1px solid var(--preto2);
       text-align: center;
+      justify-content: center;
       width: 100%;
       margin-top: 35px;
     }
@@ -17,10 +17,12 @@
     margin-top: 2%;
     width: 20%;
     display: flex;
+    justify-content: space-around;
     margin-right: 15px; /* Espaçamento entre os ícones */
     transition: color 0.3s; /* Transição de cor ao passar o mouse */
   }
   .redes-sociais a{
+    color: #3761A8;;
     font-size: 25px;
   }
   .copyright {
@@ -37,6 +39,7 @@
     margin-top: 5px;
   }
   .creditos a{
+    color: #3761A8;
     font-size: 20px;
   }
     

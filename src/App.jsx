@@ -89,6 +89,7 @@ function App() {
     >
       <div>
         <Navbar />
+
         <Searchbar onSearch={onSearchHandler} />
         {notFound ? (
           <h1 className="not-found-text">Esse ai não Existe não Colega...</h1>
@@ -101,7 +102,9 @@ function App() {
             totalPages={totalPages}
           />
         )}
+        
       </div>
+
       <Footer/>
     </FavoriteProvider>
   );
