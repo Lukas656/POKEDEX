@@ -1,0 +1,9 @@
+.section-carousel img{
+    height: 450px;
+  }
+  
+  @media (max-width: 600px) {
+    .section-carousel img{
+      height: auto;
+    }
+  }

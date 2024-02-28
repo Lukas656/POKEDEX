@@ -1,11 +1,12 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { getPokemonData, getPokemons, searchPokemon } from "./data/api";
+import { getPokemonData, getPokemons, searchPokemon } from "../data/api";
 import "./App.css";
-import Navbar from "./components/Navbar";
-import Pokedex from "./components/Pokedex";
-import Searchbar from "./components/Searchbar";
-import { FavoriteProvider } from "./contexts/favoritesContext";
-import Footer from "./components/layout/Footer";
+import Navbar from "../components/Navbar";
+import Searchbar from "../components/Searchbar";
+import Pokedex from "../components/Pokedex";
+import { FavoriteProvider } from "../contexts/favoritesContext";
+import Header from "../components/layout/Header";
+import Footer from "../components/layout/Footer";
 
 const favoritesKey = "f";
 
@@ -81,32 +82,36 @@ function App() {
   };
 
   return (
+    <>
+    <Header/>
     <FavoriteProvider
       value={{
         favoritePokemons: favorites,
         updateFavoritePokemons: updateFavoritePokemons,
       }}
-    >
+      >
       <div>
         <Navbar />
 
         <Searchbar onSearch={onSearchHandler} />
+        
         {notFound ? (
           <h1 className="not-found-text">Esse ai não Existe não Colega...</h1>
-        ) : (
-          <Pokedex
+          ) : (
+            <Pokedex
             pokemons={pokemons}
             loading={loading}
             page={page}
             setPage={setPage}
             totalPages={totalPages}
-          />
-        )}
+            />
+            )}
         
       </div>
 
       <Footer/>
     </FavoriteProvider>
+</>
   );
 }
 

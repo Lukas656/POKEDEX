@@ -13,6 +13,9 @@ const Searchbar = (props) => {
     const onButtonClickHandler = () => {
         onSearch(search.toLowerCase())
     }
+    const onButtonClickFavorites = () => {
+        alert("Em breve você podera ver seus favoritos... Calma o ❤️ bb")
+    }
 
     return (
         <div className="searchbar-container">
@@ -24,7 +27,7 @@ const Searchbar = (props) => {
                 <button onClick={onButtonClickHandler} >Buscar</button>
             </div>
             <div className="searchbar-btn">
-                <button onClick={onButtonClickHandler} >Favoritos</button>
+                <button onClick={onButtonClickFavorites} >Favoritos</button>
             </div>
             </div>
         </div>

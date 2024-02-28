@@ -1,0 +1,32 @@
+.header{
+    background-color: black;
+    color: white;
+    display: flex;
+    justify-content: space-around;
+    padding: 15px;
+}
+
+.header-menu{
+    padding: 10px;
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+}
+
+.header-menu li{
+    padding: 20px;
+    list-style: none;
+}
+.header-menu li a{
+    color: white;
+    font-size: 1.5rem;
+}
+
+
+@media (max-width: 568px) { 
+    .header{
+        text-align: center;    
+        display: block;
+    }
+  }
+  

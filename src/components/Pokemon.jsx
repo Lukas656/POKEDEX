@@ -1,6 +1,5 @@
 import React, {useContext} from "react";
 import FavoriteContext from "../contexts/favoritesContext.jsx";
-
 const Pokemon = (props) => {
     const {favoritePokemons, updateFavoritePokemons} = useContext(FavoriteContext)
     const {pokemon} = props;
@@ -8,6 +7,7 @@ const Pokemon = (props) => {
         updateFavoritePokemons(pokemon.name)
     }
     const heart = favoritePokemons.includes(pokemon.name) ? "❤️" : "🤍";
+    
     return (
     <div className="pokemon-card">
         <div className="pokemon-image-container">
