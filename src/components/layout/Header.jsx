@@ -10,10 +10,10 @@ const Header = () => {
     </div>
     <div>
         <nav>
-            <ul className="header-menu">
+            <ul className="header-menu" translate="no">
                 <li><a href="/">Home</a></li>
                 <li><a href="/app">Pokedex</a></li>
-                <li><a href="/login">Jogo</a></li>
+                <li><a href="/game">Jogo</a></li>
             </ul>
         </nav>
     </div>
