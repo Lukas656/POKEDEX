@@ -13,7 +13,7 @@ const Header = () => {
             <ul className="header-menu" translate="no">
                 <li><a href="/">Home</a></li>
                 <li><a href="/app">Pokedex</a></li>
-                <li><a href="/game">Jogo</a></li>
+                <li><a href="/login">Login</a></li>
             </ul>
         </nav>
     </div>

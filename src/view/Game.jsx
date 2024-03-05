@@ -1,108 +1,92 @@
-import  React, { useState } from "react";
-import $ from "jquery";
+import React from "react";
 import Header from "../components/layout/Header.jsx";
 import Footer from "../components/layout/Footer.jsx";
-import "./game.css";
+import "./CSS/game.css";
+import Cards from "../data/cards.js";
+
 function Game() {
-    const [flippedCards, setFlippedCards] = useState([]);
-
-    const handleCardClick = (event) => {
-      const clickedCard = event.currentTarget;
-      // Verifica se já existem duas cartas viradas
-      if (flippedCards.length < 2) {
-        // Verifica se a carta já está virada
-        if (!flippedCards.includes(clickedCard)) {
-          // Adiciona a carta ao estado de cartas viradas
-          setFlippedCards((prevFlippedCards) => [...prevFlippedCards, clickedCard]);
-          // Gira a carta clicada
-          $(clickedCard).find(".card-inner").css("transform", "rotateY(180deg)");
-        }
-      }
-    };
-
-
-
-
-
-  $(document).ready(function () {
-    // Embaralhe as cartas
-    var cards = $(".card").toArray();
-    for (var i = cards.length - 1; i > 0; i--) {
-      var j = Math.floor(Math.random() * (i + 1));
-      var temp = cards[i];
-      cards[i] = cards[j];
-      cards[j] = temp;
+  let cards = [];
+  const checkEndGame = () => {
+    const disabledCards = document.querySelectorAll(".disabled-card");
+    const text = document.querySelector(".text");
+    const cardsArray = [...Cards, ...Cards];
+    if (disabledCards.length === cardsArray.length) {
+      text.innerHTML = "Parabens Você Conseguiu!!!";
     }
-    $(".cards").html(cards);
+  };
 
-   
-  });
+  const reloadpage = () => {
+    window.location.reload();
+  };
 
+  const flipCard = (event) => {
+    const card = event.currentTarget;
+
+    // Verifica se a carta já está virada
+    if (card.classList.contains("reveal-card")) {
+      return;
+    }
+
+    // Verifica se já existem duas cartas viradas
+    if (cards.length >= 2) {
+      return;
+    }
+
+    // Adiciona a carta ao array de cartas viradas
+    cards.push(card);
+    card.classList.add("reveal-card");
+
+    // Se já houver duas cartas viradas, faça o que for necessário com elas
+    if (cards.length === 2) {
+      // Implemente aqui a lógica para manipular as duas cartas viradas
+      // Por exemplo, você pode comparar as cartas, etc.
+      const nome1 = cards[0].getAttribute("dataNome");
+      const nome2 = cards[1].getAttribute("dataNome");
+
+      if (nome1 === nome2) {
+        cards[0].firstChild.classList.add("disabled-card");
+        cards[1].firstChild.classList.add("disabled-card");
+        cards = [];
+        checkEndGame();
+      }
+
+      // Após manipular as cartas, limpe o array para permitir virar mais cartas
+      setTimeout(() => {
+        cards.forEach((card) => card.classList.remove("reveal-card"));
+        cards = [];
+      }, 1000); // Adicione um atraso de 1 segundo para permitir que o jogador veja as cartas antes de virarem novamente
+    }
+  };
+
+  const createCard = () => {
+    const duplicateCharacteres = [...Cards, ...Cards];
+
+    const shuffeldArray = duplicateCharacteres.sort(() => Math.random() - 0.5);
+
+    return shuffeldArray.map((card, i) => (
+      <div className="card-game" key={i} onClick={flipCard} dataNome={card.alt}>
+        <div
+          className="face front-grid"
+          style={{ backgroundImage: `url(${card.url})` }}
+        ></div>
+        <div className="face back-grid"></div>
+      </div>
+    ));
+  };
   return (
-    <>
+    <div className="game">
       <Header />
+      <div className="header-game">
+        <h1 className="text">Jogo da Memoria</h1>
+        <button className="reset" type="submit" onClick={reloadpage}>
+          Embaralhar
+        </button>
+      </div>
 
-      <section className="cards">
-        <div class="card" data-pokemon="pikachu" onClick={handleCardClick}>
-          <div class="card-inner">
-            <div class="card-front">
-              <p>POKÉ-CARD</p>
-            </div>
-            <div class="card-back">
-              <p id="nome">Pikachu</p>
-              <img
-                src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-                alt="Pikachu"
-              />
-            </div>
-          </div>
-        </div>
-        <div class="card" data-pokemon="bulbasaur" onClick={handleCardClick}>
-          <div class="card-inner">
-            <div class="card-front">
-              <p>POKÉ-CARD</p>
-            </div>
-            <div class="card-back">
-              <p id="nome">Bulbasaur</p>
-              <img
-                src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png"
-                alt="Bulbasaur"
-              />
-            </div>
-          </div>
-        </div>
-        <div class="card" data-pokemon="charmander" onClick={handleCardClick}>
-          <div class="card-inner">
-            <div class="card-front">
-              <p>POKÉ-CARD</p>
-            </div>
-            <div class="card-back">
-              <p id="nome">charmander</p>
-              <img
-                src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png"
-                alt="Charmander"
-              />
-            </div>
-          </div>
-        </div>
-        <div class="card" data-pokemon="squirtle" onClick={handleCardClick}>
-          <div class="card-inner">
-            <div class="card-front">
-              <p>POKÉ-CARD</p>
-            </div>
-            <div class="card-back">
-              <p id="nome">squirtle</p>
-              <img
-                src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png"
-                alt="Squirtle"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
+      <div className="grid-game">{createCard()}</div>
 
       <Footer />
-    </>
+    </div>
   );
 }
 

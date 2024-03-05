@@ -1,0 +1,80 @@
+.game{
+    background-color: black;
+    color: white;
+}
+.grid-game {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    gap: 15px;
+    width: 100%;
+    max-width: 800px;
+    margin: 20px auto;
+}
+
+
+.card-game {
+    aspect-ratio: 3/4;
+    width: 100%;
+    border-radius: 5px;
+    cursor: pointer;
+    position: relative;
+    transition: all 400ms ease;
+    transform-style: preserve-3d;
+}
+
+.face {
+    background-color: #fff;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    position: absolute;
+    border: 2px solid #FECA1B;
+    border-radius: 5px;
+    background-size: contain;
+    background-position: center;
+    transition: all 400ms ease;
+}
+
+.front-grid {
+    text-align: center;
+    background-repeat: no-repeat;
+    transform: rotateY(180deg);
+}
+
+.back-grid {
+    background-image: url('https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/41d3ac77-2823-4e18-8910-a48de63acf87/d8xl0ja-ca02368b-643f-42f4-9721-f3895e14690d.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzQxZDNhYzc3LTI4MjMtNGUxOC04OTEwLWE0OGRlNjNhY2Y4N1wvZDh4bDBqYS1jYTAyMzY4Yi02NDNmLTQyZjQtOTcyMS1mMzg5NWUxNDY5MGQuanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.dUhAjPqt1Rkudg3gHjqPNOQAuaA2wmXZ7T-Lq6L28O8');
+    backface-visibility: hidden;
+}
+
+.reveal-card{transform: rotateY(180deg);}
+
+.disabled-card{
+    filter: saturate(0);
+    opacity: 0.5;
+}
+
+.text{margin-top: 25px; font-size: 2rem ;text-align: center; color: red;}
+.header-game{text-align: center; justify-content: center;}
+.reset{
+    background-color: #FECA1B;
+    padding: 5px;
+    border-radius: 8px;
+    color: blue;
+    cursor: pointer;
+    font-size: 1em;
+    max-width: 100px;
+    width: 100%;
+    border: none;
+}
+
+.reset:hover{
+    background-color: #a83737;
+    color: #fff;
+}
+
+@media (max-width: 568px) {
+    .grid-game {
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 10px;
+    }
+}
