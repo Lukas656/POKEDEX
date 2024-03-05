@@ -16,13 +16,13 @@ const ComponentCarousel = () => (
     interval={5000}
     >
     <div>
-      <img src="https://i.ibb.co/yQfN8Ks/Pokemon-banner.webp" alt="Banner 1" />
+      <img src="https://http2.mlstatic.com/D_NQ_NP_817215-MLB44315211093_122020-O.webp" alt="Banner 1" />
     </div>
     <div>
-      <img src="https://i.ibb.co/bPpyYZC/pikachu.png" alt="Banner 2" />
+      <img src="https://http2.mlstatic.com/D_NQ_NP_845602-MLB29091290363_012019-O.webp" alt="Banner 2" />
     </div>
     <div>
-      <img src="https://i.ibb.co/NFhJzgS/maxresdefault.jpg" alt="Banner 3" />
+      <img src="https://i.pinimg.com/736x/00/41/09/004109ee84c353253ce3851e2f83bd92.jpg" alt="Banner 3" />
     </div>
     <div>
       <img src="https://i.ibb.co/2ywwRx3/splash-Banner-pokemon.jpg" alt="Banner 4" />

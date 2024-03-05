@@ -14,7 +14,7 @@
      margin-bottom: 50px;
 }
 
-.login-header img{ width: 100px;}
+.login-header img{ width: 100px; border-radius: 50%;}
 .login-header h1{ 
     color: #FFC303;
 }

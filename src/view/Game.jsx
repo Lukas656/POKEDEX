@@ -2,6 +2,7 @@ import React from "react";
 import Header from "../components/layout/Header.jsx";
 import Footer from "../components/layout/Footer.jsx";
 import "./CSS/game.css";
+import { Link } from "react-router-dom";
 import Cards from "../data/cards.js";
 
 function Game() {
@@ -13,10 +14,6 @@ function Game() {
     if (disabledCards.length === cardsArray.length) {
       text.innerHTML = "Parabens Você Conseguiu!!!";
     }
-  };
-
-  const reloadpage = () => {
-    window.location.reload();
   };
 
   const flipCard = (event) => {
@@ -78,9 +75,9 @@ function Game() {
       <Header />
       <div className="header-game">
         <h1 className="text">Jogo da Memoria</h1>
-        <button className="reset" type="submit" onClick={reloadpage}>
-          Embaralhar
-        </button>
+        <Link to="/login" className="reset">
+          Voltar ao Login
+        </Link>
       </div>
 
       <div className="grid-game">{createCard()}</div>

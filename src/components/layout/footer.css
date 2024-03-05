@@ -51,6 +51,8 @@
     }
     
   .creditos a{
+    text-align: left;
     font-size: 15px;
   }
+  .creditos{ display: block; line-height: 2;}
   }

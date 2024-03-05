@@ -2,8 +2,12 @@
     height: 450px;
   }
   
+.section-carousel div{
+  background-color: #FDBE01;
+}
+
   @media (max-width: 600px) {
     .section-carousel img{
-      height: auto;
+      height: 30vh;
     }
   }

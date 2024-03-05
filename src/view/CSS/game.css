@@ -53,10 +53,11 @@
     opacity: 0.5;
 }
 
-.text{margin-top: 25px; font-size: 2rem ;text-align: center; color: red;}
 .header-game{text-align: center; justify-content: center;}
+.text{margin: 25px; font-size: 2rem ;text-align: center; color: red;}
 .reset{
     background-color: #FECA1B;
+    margin-top: 45px;
     padding: 5px;
     border-radius: 8px;
     color: blue;
