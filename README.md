@@ -4,10 +4,11 @@ Pokedex com API, React hooks, useState, useContext, localStorage
 
 ## Aula_Autor
 Inspirado no video: https://www.youtube.com/watch?v=n2kkXup2T1c
+https://www.youtube.com/watch?v=QbqKRxUyigw
 
 ## 🛠 Habilidades
 React.js, API:https://pokeapi.co
-
+https://www.pokemon.com/br/pokedex
 
 ## Rodando API
 

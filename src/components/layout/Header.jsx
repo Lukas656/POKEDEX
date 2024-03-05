@@ -1,5 +1,7 @@
 import React from "react";
 import './header.css'
+import { Link } from "react-router-dom";
+
 const logoImg = "https://raw.githubusercontent.com/PokeAPI/media/master/logo/pokeapi_256.png";
 
 const Header = () => {
@@ -11,9 +13,9 @@ const Header = () => {
     <div>
         <nav>
             <ul className="header-menu" translate="no">
-                <li><a href="/">Home</a></li>
-                <li><a href="/app">Pokedex</a></li>
-                <li><a href="/login">Login</a></li>
+                <li><Link to="/">Home</Link></li>
+                <li><Link to="/app">Pokedex</Link></li>
+                <li><Link to="/login">Login</Link></li>
             </ul>
         </nav>
     </div>
