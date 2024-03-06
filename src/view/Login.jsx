@@ -15,7 +15,8 @@ function Login() {
 
   const handleSubmit = (event) => {
     event.preventDefault(); // previne o envio do formulario e recarregando a pagina
-    localStorage.setItem("palyer", inputValue);
+    localStorage.setItem("player", inputValue);
+    localStorage.setItem("jogadas", 0);
     history("/game");
   };
 

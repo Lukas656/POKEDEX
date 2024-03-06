@@ -1,24 +1,39 @@
-import React from "react";
-import Header from "../components/layout/Header.jsx";
+import React, { useState, useEffect, useMemo } from "react";
 import Footer from "../components/layout/Footer.jsx";
 import "./CSS/game.css";
 import { Link } from "react-router-dom";
 import Cards from "../data/cards.js";
 
 function Game() {
+  const [player, setPlayer] = useState("");
+  const [jogadas, setJogadas] = useState(0);
+  const [cartas, setCartas] = useState([]);
   let cards = [];
+
+  useEffect(() => {
+    const playerName = localStorage.getItem("player");
+    if (playerName) {
+      setPlayer(playerName);
+    }
+  }, []);
+
+  useEffect(() => {
+    const duplicateCharacteres = [...Cards, ...Cards];
+    const shuffeldArray = duplicateCharacteres.sort(() => Math.random() - 0.5);
+    setCartas(shuffeldArray);
+  }, []);
+
   const checkEndGame = () => {
     const disabledCards = document.querySelectorAll(".disabled-card");
     const text = document.querySelector(".text");
     const cardsArray = [...Cards, ...Cards];
     if (disabledCards.length === cardsArray.length) {
-      text.innerHTML = "Parabens Você Conseguiu!!!";
+      text.innerHTML = `Parabens ${player}!! Conseguiu em ${jogadas+1} jogadas `;
     }
   };
 
   const flipCard = (event) => {
     const card = event.currentTarget;
-
     // Verifica se a carta já está virada
     if (card.classList.contains("reveal-card")) {
       return;
@@ -39,7 +54,7 @@ function Game() {
       // Por exemplo, você pode comparar as cartas, etc.
       const nome1 = cards[0].getAttribute("dataNome");
       const nome2 = cards[1].getAttribute("dataNome");
-
+      setJogadas(jogadas + 1);
       if (nome1 === nome2) {
         cards[0].firstChild.classList.add("disabled-card");
         cards[1].firstChild.classList.add("disabled-card");
@@ -55,12 +70,8 @@ function Game() {
     }
   };
 
-  const createCard = () => {
-    const duplicateCharacteres = [...Cards, ...Cards];
-
-    const shuffeldArray = duplicateCharacteres.sort(() => Math.random() - 0.5);
-
-    return shuffeldArray.map((card, i) => (
+  const createCard = useMemo(() => {
+    return cartas.map((card, i) => (
       <div className="card-game" key={i} onClick={flipCard} dataNome={card.alt}>
         <div
           className="face front-grid"
@@ -69,19 +80,27 @@ function Game() {
         <div className="face back-grid"></div>
       </div>
     ));
-  };
+  }, [cartas, jogadas]);
+
   return (
     <div className="game">
-      <Header />
-      <div className="header-game">
-        <h1 className="text">Jogo da Memoria</h1>
-        <Link to="/login" className="reset">
-          Voltar ao Login
-        </Link>
-      </div>
+      <main className="main-game">
+        <header className="header-game">
+          <span className="player">Player: {player}</span>
+          <span className="player">
+            Jogadas: <span className="jogadas">{jogadas}</span>
+          </span>
+          <Link to="/login" className="exit">
+            SAIR
+          </Link>
+        </header>
 
-      <div className="grid-game">{createCard()}</div>
+        <div className="menu-game">
+          <h1 className="text">Jogo da Memoria</h1>
+        </div>
 
+        <div className="grid-game">{createCard}</div>
+      </main>
       <Footer />
     </div>
   );
