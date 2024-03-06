@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useCallback, useRef } from "react";
 import Footer from "../components/layout/Footer.jsx";
 import "./CSS/game.css";
 import { Link } from "react-router-dom";
@@ -8,7 +8,7 @@ function Game() {
   const [player, setPlayer] = useState("");
   const [jogadas, setJogadas] = useState(0);
   const [cartas, setCartas] = useState([]);
-  let cards = [];
+  const cardsRef = useRef([]);
 
   useEffect(() => {
     const playerName = localStorage.getItem("player");
@@ -28,11 +28,11 @@ function Game() {
     const text = document.querySelector(".text");
     const cardsArray = [...Cards, ...Cards];
     if (disabledCards.length === cardsArray.length) {
-      text.innerHTML = `Parabens ${player}!! Conseguiu em ${jogadas+1} jogadas `;
+      text.innerHTML = `Parabens ${player}!! Conseguiiu em ${jogadas} jogadas `;
     }
   };
 
-  const flipCard = (event) => {
+  const flipCard = useCallback((event) => {
     const card = event.currentTarget;
     // Verifica se a carta já está virada
     if (card.classList.contains("reveal-card")) {
@@ -40,35 +40,35 @@ function Game() {
     }
 
     // Verifica se já existem duas cartas viradas
-    if (cards.length >= 2) {
+    if (cardsRef.current.length >= 2) {
       return;
     }
 
     // Adiciona a carta ao array de cartas viradas
-    cards.push(card);
+    cardsRef.current.push(card);
     card.classList.add("reveal-card");
 
     // Se já houver duas cartas viradas, faça o que for necessário com elas
-    if (cards.length === 2) {
+    if (cardsRef.current.length === 2) {
       // Implemente aqui a lógica para manipular as duas cartas viradas
       // Por exemplo, você pode comparar as cartas, etc.
-      const nome1 = cards[0].getAttribute("dataNome");
-      const nome2 = cards[1].getAttribute("dataNome");
+      const nome1 = cardsRef.current[0].getAttribute("dataNome");
+      const nome2 = cardsRef.current[1].getAttribute("dataNome");
       setJogadas(jogadas + 1);
       if (nome1 === nome2) {
-        cards[0].firstChild.classList.add("disabled-card");
-        cards[1].firstChild.classList.add("disabled-card");
-        cards = [];
+        cardsRef.current[0].firstChild.classList.add("disabled-card");
+        cardsRef.current[1].firstChild.classList.add("disabled-card");
+        cardsRef.current = [];
         checkEndGame();
       }
 
       // Após manipular as cartas, limpe o array para permitir virar mais cartas
       setTimeout(() => {
-        cards.forEach((card) => card.classList.remove("reveal-card"));
-        cards = [];
+        cardsRef.current.forEach((card) => card.classList.remove("reveal-card"));
+        cardsRef.current = [];
       }, 1000); // Adicione um atraso de 1 segundo para permitir que o jogador veja as cartas antes de virarem novamente
     }
-  };
+  }, [jogadas, player]);
 
   const createCard = useMemo(() => {
     return cartas.map((card, i) => (
@@ -80,7 +80,7 @@ function Game() {
         <div className="face back-grid"></div>
       </div>
     ));
-  }, [cartas, jogadas]);
+  }, [cartas, flipCard]);
 
   return (
     <div className="game">
