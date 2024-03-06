@@ -28,7 +28,7 @@ function Home() {
             </p>
             <div className="apresentacao">
               <div>
-                <h1>Pokedex</h1>
+                <h1 className="name-h1">Pokedex</h1>
                 <Link to="/app">Ver mais...</Link>
                 <img
                   src="https://i.ibb.co/Q6yryjH/Captura-de-tela-2024-03-06-114417.png"
@@ -41,7 +41,7 @@ function Home() {
                 </p>
               </div>
               <div>
-                <h1>Login</h1>
+                <h1 className="name-h1">Login</h1>
                 <Link to="/login">Ver mais...</Link>
                 <img
                   src="https://i.ibb.co/cTzpLWr/Captura-de-tela-2024-03-06-113850.png"
@@ -54,7 +54,7 @@ function Home() {
                 </p>
               </div>
               <div>
-                <h1>Jogo</h1>
+                <h1 className="name-h1">Jogo</h1>
                 <Link to="/login">Ver mais...</Link>
                 <img
                   src="https://i.ibb.co/SKs979h/Captura-de-tela-2024-03-06-113909.png"

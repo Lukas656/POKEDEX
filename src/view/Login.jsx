@@ -13,17 +13,29 @@ function Login() {
     setInputValue(value);
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault(); // previne o envio do formulario e recarregando a pagina
-    localStorage.setItem("player", inputValue);
-    localStorage.setItem("jogadas", 0);
-    history("/game");
+  const handleSubmit = () => {
+      localStorage.setItem("player", inputValue);
+      history("/game");
   };
+
+  const sendForm= (event)=>{
+    event.preventDefault(); // previne o envio do formulario e recarregando a pagina
+    
+    
+    fetch("https://api.sheetmonkey.io/form/gtUhsQqMZCy3eFs6nZ7LB8", {
+      method: "post",
+      headers: {
+        Accept: "aplication/json",
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({ Nome: inputValue }),
+    }).then(()=> handleSubmit())
+  }
 
   return (
     <>
       <Header />
-      <form className="login-form" onSubmit={handleSubmit}>
+      <form className="login-form">
         <div className="login-header">
           <img
             src="https://th.bing.com/th/id/OIG1.dUpJ7EtV4YKsrHBWSCka?w=270&h=270&c=6&r=0&o=5&pid=ImgGn"
@@ -33,13 +45,14 @@ function Login() {
         </div>
         <input
           type="text"
+          name="Usuarios Pokedex"
           placeholder="Nome"
           className="login-input"
           value={inputValue}
           onChange={handleChange}
         />
         <button
-          type="submit"
+          onClick={sendForm}
           className="login-button"
           disabled={inputValue.length <= 2}
         >
