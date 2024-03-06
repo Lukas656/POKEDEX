@@ -1,16 +1,15 @@
-import React from 'react';
-import { BrowserRouter as Router} from 'react-router-dom';
-import Content from './controller/router'
+import React from "react";
+import { BrowserRouter as Router } from "react-router-dom";
+import Content from "./controller/router";
 
 function Initial() {
-    return (
-      <div>
+  return (
+    <div>
       <Router>
-            <Content />
+        <Content />
       </Router>
-    </div>    
-    );
-  }
-  
-  export default Initial;
-  
+    </div>
+  );
+}
+
+export default Initial;

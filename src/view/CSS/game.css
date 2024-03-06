@@ -28,7 +28,6 @@
     width: 100%;
     height: 100%;
     position: absolute;
-    position: absolute;
     border: 2px solid #FECA1B;
     border-radius: 5px;
     background-size: contain;
@@ -116,7 +115,11 @@
         grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
         gap: 10px;
     }
-    .text{font-size: 1.5rem;}
+
+    .text {
+        font-size: 1.5rem;
+    }
+
     .player,
     .exit {
         font-size: 1.2rem;

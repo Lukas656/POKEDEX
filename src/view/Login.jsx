@@ -25,7 +25,10 @@ function Login() {
       <Header />
       <form className="login-form" onSubmit={handleSubmit}>
         <div className="login-header">
-          <img src="https://th.bing.com/th/id/OIG1.dUpJ7EtV4YKsrHBWSCka?w=270&h=270&c=6&r=0&o=5&pid=ImgGn" alt="Memory" />
+          <img
+            src="https://th.bing.com/th/id/OIG1.dUpJ7EtV4YKsrHBWSCka?w=270&h=270&c=6&r=0&o=5&pid=ImgGn"
+            alt="Memory"
+          />
           <h1>Memory Game</h1>
         </div>
         <input

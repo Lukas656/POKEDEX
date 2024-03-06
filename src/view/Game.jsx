@@ -34,7 +34,9 @@ function Game() {
     const text = document.querySelector(".text");
     const cardsArray = [...Cards, ...Cards];
     if (disabledCards.length === cardsArray.length) {
-      text.innerHTML = `Parabens ${player}!! <br/> Conseguiu em ${jogadas+1} jogadas `;
+      text.innerHTML = `Parabens ${player}!! <br/> Conseguiu em ${
+        jogadas + 1
+      } jogadas `;
     }
   }, [jogadas, player]);
 

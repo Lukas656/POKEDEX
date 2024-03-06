@@ -39,7 +39,8 @@ function App() {
   }, [page]);
 
   const loadFavoritePokemons = () => {
-    const pokemons = JSON.parse(window.localStorage.getItem(favoritesKey)) || [];
+    const pokemons =
+      JSON.parse(window.localStorage.getItem(favoritesKey)) || [];
     setFavorites(pokemons);
   };
 
@@ -83,35 +84,34 @@ function App() {
 
   return (
     <>
-    <Header/>
-    <FavoriteProvider
-      value={{
-        favoritePokemons: favorites,
-        updateFavoritePokemons: updateFavoritePokemons,
-      }}
+      <Header />
+      <FavoriteProvider
+        value={{
+          favoritePokemons: favorites,
+          updateFavoritePokemons: updateFavoritePokemons,
+        }}
       >
-      <div>
-        <Navbar />
+        <div>
+          <Navbar />
 
-        <Searchbar onSearch={onSearchHandler} />
-        
-        {notFound ? (
-          <h1 className="not-found-text">Esse ai não Existe não Colega...</h1>
+          <Searchbar onSearch={onSearchHandler} />
+
+          {notFound ? (
+            <h1 className="not-found-text">Esse ai não Existe não Colega...</h1>
           ) : (
             <Pokedex
-            pokemons={pokemons}
-            loading={loading}
-            page={page}
-            setPage={setPage}
-            totalPages={totalPages}
+              pokemons={pokemons}
+              loading={loading}
+              page={page}
+              setPage={setPage}
+              totalPages={totalPages}
             />
-            )}
-        
-      </div>
+          )}
+        </div>
 
-      <Footer/>
-    </FavoriteProvider>
-</>
+        <Footer />
+      </FavoriteProvider>
+    </>
   );
 }
 

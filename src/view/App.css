@@ -1,8 +1,9 @@
-*{
+* {
   margin: 0%;
   padding: 0%;
 }
-nav{
+
+nav {
   height: 100px;
   display: flex;
   flex-direction: row;
@@ -10,25 +11,26 @@ nav{
   align-items: center;
 }
 
-.navbar-img{
+.navbar-img {
   width: 150px;
 }
 
-.searchbar-container{
+.searchbar-container {
   display: flex;
   flex-wrap: wrap;
   margin: 0px auto;
   padding: 0 20px;
   align-items: center;
 }
-.searchbar{
+
+.searchbar {
   width: 100%;
   margin-left: 50px;
   text-align: center;
   margin-right: 20px;
 }
 
-.searchbar input{
+.searchbar input {
   width: 250px;
   background-color: rgb(255, 255, 255);
   padding: 20px;
@@ -36,7 +38,8 @@ nav{
   border-radius: 20px;
   border: none;
 }
-.searchbar-btn button{
+
+.searchbar-btn button {
   background-color: #3761A8;
   border: none;
   border-radius: 10px;
@@ -46,13 +49,13 @@ nav{
 }
 
 
-.searchbar-btn button:hover{
+.searchbar-btn button:hover {
   background-color: #FECA1B;
   cursor: pointer;
   color: black;
 }
 
-.btns-conteiner{
+.btns-conteiner {
   margin-top: 35px;
   display: flex;
   width: 100%;
@@ -60,7 +63,7 @@ nav{
 }
 
 
-.pokedex-header{
+.pokedex-header {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -68,31 +71,32 @@ nav{
   padding: 15px;
 }
 
-.pokedex-grid{
+.pokedex-grid {
   display: grid;
-  gap: 5px;  
+  gap: 5px;
   grid-template-columns: repeat(3, 1fr);
 }
 
 
-.pokemon-card{
+.pokemon-card {
   width: 90%;
   display: flex;
   box-shadow: 4px 4px 4px rgb(37, 37, 37);
   border-radius: 3px;
 }
-.pokemon-card:hover{
+
+.pokemon-card:hover {
   transform: translateY(-2px);
   cursor: pointer;
 }
 
-.pokedex-image{
+.pokedex-image {
   width: 70px;
   height: 70px;
   margin-right: 10px;
 }
 
-.pokemon-image-conteiner{
+.pokemon-image-conteiner {
   padding: 0px 5px;
 }
 
@@ -132,7 +136,7 @@ nav{
   text-transform: capitalize;
 }
 
-.pagination-container{
+.pagination-container {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -155,16 +159,15 @@ nav{
   margin-top: 55px;
 }
 
-@media (max-width: 568px) { 
-  .pokedex-grid{
+@media (max-width: 568px) {
+  .pokedex-grid {
     display: flex;
     width: 100%;
     flex-wrap: wrap;
     justify-content: center;
-  } 
-  .searchbar{
+  }
+
+  .searchbar {
     margin-left: 50px;
   }
 }
-
-
