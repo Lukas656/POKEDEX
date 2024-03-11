@@ -17,7 +17,7 @@ React.js, API:https://pokeapi.co
 https://www.pokemon.com/br/pokedex
 
 
-## Rodando API
+## Rodando Projeto
 
 Após clonar o repositório rode os Seguintes comandos
 ```bash
