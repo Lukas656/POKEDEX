@@ -17,6 +17,7 @@ function App() {
   const [notFound, setNotFound] = useState(false);
   const [pokemons, setPokemons] = useState([]);
   const [favorites, setFavorites] = useState([]);
+  const [showFavorites, setShowFavorites] = useState(false);
 
   const itensPerPage = 25;
 
@@ -73,16 +74,19 @@ function App() {
     setLoading(true);
     setNotFound(false);
     const result = await searchPokemon(pokemon);
-    if (!result) {
+    if (!result || result.length === 0) {
       setNotFound(true);
     } else {
-      setPokemons([result]);
+      setPokemons(result);
       setPage(0);
       setTotalPages(1);
     }
     setLoading(false);
   };
 
+  const filteredPokemons = showFavorites
+    ? pokemons.filter((pokemon) => favorites.includes(pokemon.name))
+    : pokemons;
   return (
     <>
       <Header />
@@ -95,13 +99,17 @@ function App() {
         <div>
           <Navbar />
 
-          <Searchbar onSearch={onSearchHandler} />
+          <Searchbar
+            onSearch={onSearchHandler}
+            onShowFavorites={() => setShowFavorites((prev) => !prev)}
+            showFavorites={showFavorites}
+          />
 
           {notFound ? (
             <h1 className="not-found-text">Esse ai não Existe não Colega...</h1>
           ) : (
             <Pokedex
-              pokemons={pokemons}
+              pokemons={filteredPokemons}
               loading={loading}
               page={page}
               setPage={setPage}

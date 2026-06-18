@@ -6,6 +6,11 @@
   background-color: #FDBE01;
 }
 
+.favorites-btn.active {
+  background: #ff4d6d;
+  color: white;
+}
+
   @media (max-width: 600px) {
     .section-carousel img{
       height: 30vh;

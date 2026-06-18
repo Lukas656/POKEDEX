@@ -1,12 +1,31 @@
-export const searchPokemon = async (pokemon) => {
-    try {
-        let url = `https://pokeapi.co/api/v2/pokemon/${pokemon}`
-        const response = await fetch(url)
-        return await response.json()
-    } catch (error) {
-        console.log("error: ", error)
+export const searchPokemon = async (search) => {
+  try {
+    const response = await fetch(
+      `https://pokeapi.co/api/v2/pokemon?limit=1302&offset=0`
+    );
+
+    const data = await response.json();
+
+    const matches = data.results.filter((pokemon) =>
+      pokemon.name.startsWith(search.toLowerCase())
+    );
+
+    if (!matches.length) {
+      return null;
     }
-}
+
+    const pokemonData = await Promise.all(
+      matches.slice(0, 10).map((pokemon) =>
+        getPokemonData(pokemon.url)
+      )
+    );
+
+    return pokemonData;
+  } catch (error) {
+    console.log("error:", error);
+    return null;
+  }
+};
 
  
 
