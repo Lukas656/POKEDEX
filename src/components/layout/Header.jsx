@@ -13,7 +13,6 @@ const Header = () => {
     <div>
         <nav>
             <ul className="header-menu" translate="no">
-                <li><Link to="/">Home</Link></li>
                 <li><Link to="/app">Pokedex</Link></li>
                 <li><Link to="/login">Jogar</Link></li>
                 <li><Link to="/ranking">Ranking</Link></li>

@@ -30,7 +30,7 @@ function Game() {
 
   const fetchPokemons = useCallback(async () => {
     try {
-      const data = await getPokemons(4, 0);
+      const data = await getPokemons(10, 0);
 
       const promises = data.results.map((pokemon) =>
         getPokemonData(pokemon.url),
