@@ -1,119 +1,233 @@
-import React, {
-  useState,
-  useEffect,
-  useMemo,
-  useCallback,
-  useRef,
-} from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Footer from "../components/layout/Footer.jsx";
 import "./CSS/game.css";
 import { Link } from "react-router-dom";
-import Cards from "../data/cards.js";
+import { getPokemonData, getPokemons } from "../data/api";
 
 function Game() {
-  const [player, setPlayer] = useState("");
-  const [jogadas, setJogadas] = useState(0);
+  const [player, setPlayer] = useState(localStorage.getItem("player") || "");
+  const [pokemons, setPokemons] = useState([]);
   const [cartas, setCartas] = useState([]);
-  const cardsRef = useRef([]);
+
+  const [jogadas, setJogadas] = useState(0);
+  const STORAGE_KEY = `pokemon-memory-game-${player}`;
+  const handleLogout = () => {
+    localStorage.removeItem("pokemon-memory-game");
+    localStorage.removeItem("player");
+  };
+  const [selectedCards, setSelectedCards] = useState([]);
+  const [matchedCards, setMatchedCards] = useState([]);
+  const [gameFinished, setGameFinished] = useState(false);
+
+  const shuffleCards = useCallback((pokemonList) => {
+    return [...pokemonList, ...pokemonList]
+      .map((pokemon, index) => ({
+        uniqueId: `${pokemon.id}-${index}`,
+        pokemon,
+      }))
+      .sort(() => Math.random() - 0.5);
+  }, []);
+
+  const fetchPokemons = useCallback(async () => {
+    try {
+      const data = await getPokemons(4, 0);
+
+      const promises = data.results.map((pokemon) =>
+        getPokemonData(pokemon.url),
+      );
+
+      const results = await Promise.all(promises);
+
+      setPokemons(results);
+
+      const shuffledCards = shuffleCards(results);
+      setCartas(shuffledCards);
+    } catch (error) {
+      console.log("fetchPokemons error:", error);
+    }
+  }, [shuffleCards]);
 
   useEffect(() => {
     const playerName = localStorage.getItem("player");
+
     if (playerName) {
       setPlayer(playerName);
     }
-  }, []);
+
+    const savedGame = localStorage.getItem(STORAGE_KEY);
+
+    if (savedGame) {
+      const parsed = JSON.parse(savedGame);
+
+      setJogadas(parsed.jogadas || 0);
+      setMatchedCards(parsed.matchedCards || []);
+    }
+
+    fetchPokemons();
+  }, [fetchPokemons]);
 
   useEffect(() => {
-    const duplicateCharacteres = [...Cards, ...Cards];
-    const shuffeldArray = duplicateCharacteres.sort(() => Math.random() - 0.5);
-    setCartas(shuffeldArray);
-  }, []);
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({
+        jogadas,
+        matchedCards,
+      }),
+    );
+  }, [jogadas, matchedCards]);
 
-  const checkEndGame = useCallback(() => {
-    const disabledCards = document.querySelectorAll(".disabled-card");
-    const text = document.querySelector(".text");
-    const cardsArray = [...Cards, ...Cards];
-    if (disabledCards.length === cardsArray.length) {
-      text.innerHTML = `Parabens ${player}!! <br/> Conseguiu em ${
-        jogadas + 1
-      } jogadas `;
+  useEffect(() => {
+    if (selectedCards.length !== 2) return;
+
+    const [firstCard, secondCard] = selectedCards;
+
+    setJogadas((prev) => prev + 1);
+
+    if (firstCard.pokemon.name === secondCard.pokemon.name) {
+      setMatchedCards((prev) => [...prev, firstCard.pokemon.name]);
+
+      setSelectedCards([]);
+    } else {
+      setTimeout(() => {
+        setSelectedCards([]);
+      }, 1000);
     }
-  }, [jogadas, player]);
+  }, [selectedCards]);
 
-  const flipCard = useCallback(
-    (event) => {
-      const card = event.currentTarget;
-      // Verifica se a carta já está virada
-      if (card.classList.contains("reveal-card")) {
-        return;
-      }
+  useEffect(() => {
+    if (pokemons.length > 0 && matchedCards.length === pokemons.length) {
+      setGameFinished(true);
 
-      // Verifica se já existem duas cartas viradas
-      if (cardsRef.current.length >= 2) {
-        return;
-      }
+      const ranking = JSON.parse(localStorage.getItem("ranking")) || [];
 
-      // Adiciona a carta ao array de cartas viradas
-      cardsRef.current.push(card);
-      card.classList.add("reveal-card");
+      ranking.push({
+        player,
+        jogadas,
+        date: new Date().toISOString(),
+      });
 
-      // Se já houver duas cartas viradas, faça o que for necessário com elas
-      if (cardsRef.current.length === 2) {
-        // Implemente aqui a lógica para manipular as duas cartas viradas
-        // Por exemplo, você pode comparar as cartas, etc.
-        const nome1 = cardsRef.current[0].getAttribute("dataNome");
-        const nome2 = cardsRef.current[1].getAttribute("dataNome");
-        setJogadas(jogadas + 1);
-        if (nome1 === nome2) {
-          cardsRef.current[0].firstChild.classList.add("disabled-card");
-          cardsRef.current[1].firstChild.classList.add("disabled-card");
-          cardsRef.current = [];
-          checkEndGame();
-        }
+      ranking.sort((a, b) => a.jogadas - b.jogadas);
 
-        // Após manipular as cartas, limpe o array para permitir virar mais cartas
-        setTimeout(() => {
-          cardsRef.current.forEach((card) =>
-            card.classList.remove("reveal-card")
-          );
-          cardsRef.current = [];
-        }, 1000); // Adicione um atraso de 1 segundo para permitir que o jogador veja as cartas antes de virarem novamente
-      }
-    },
-    [jogadas, checkEndGame]
-  );
+      localStorage.setItem("ranking", JSON.stringify(ranking.slice(0, 10)));
 
-  const createCard = useMemo(() => {
-    return cartas.map((card, i) => (
-      <div className="card-game" key={i} onClick={flipCard} dataNome={card.alt}>
-        <div
-          className="face front-grid"
-          style={{ backgroundImage: `url(${card.url})` }}
-        ></div>
-        <div className="face back-grid"></div>
-      </div>
-    ));
-  }, [cartas, flipCard]);
+      localStorage.removeItem(STORAGE_KEY);
+    }
+  }, [matchedCards, pokemons, jogadas, player, STORAGE_KEY]);
+
+  const flipCard = (card) => {
+    if (gameFinished) return;
+
+    if (selectedCards.length === 2) return;
+
+    const alreadySelected = selectedCards.some(
+      (selected) => selected.uniqueId === card.uniqueId,
+    );
+
+    if (alreadySelected) return;
+
+    const alreadyMatched = matchedCards.includes(card.pokemon.name);
+
+    if (alreadyMatched) return;
+
+    setSelectedCards((prev) => [...prev, card]);
+  };
+
+  const resetGame = () => {
+    localStorage.removeItem(STORAGE_KEY);
+
+    setJogadas(0);
+    setSelectedCards([]);
+    setMatchedCards([]);
+    setGameFinished(false);
+
+    setCartas(shuffleCards(pokemons));
+  };
+
+  const isCardVisible = (card) => {
+    const selected = selectedCards.some(
+      (selected) => selected.uniqueId === card.uniqueId,
+    );
+
+    const matched = matchedCards.includes(card.pokemon.name);
+
+    return selected || matched;
+  };
 
   return (
     <div className="game">
       <main className="main-game">
         <header className="header-game">
-          <span className="player">Player: {player}</span>
-          <span className="player">
-            Jogadas: <span className="jogadas">{jogadas}</span>
-          </span>
-          <Link to="/login" className="exit">
-            SAIR
-          </Link>
+          <div className="player-card">
+            <span className="player-label">Treinador</span>
+            <span className="player-name">{player}</span>
+          </div>
+
+          <div className="score-card">
+            <span className="player-label">Jogadas</span>
+            <span className="score-value">{jogadas}</span>
+          </div>
+
+          <div className="header-actions">
+            <Link to="/ranking" className="ranking-link">
+              🏆 Ranking
+            </Link>
+
+            <Link to="/login" className="exit" onClick={handleLogout}>
+              🚪 Sair
+            </Link>
+          </div>
         </header>
 
-        <div className="menu-game">
-          <h1 className="text">Jogo da Memoria</h1>
-        </div>
+        <section className="menu-game">
+          <h1 className="text">
+            {gameFinished
+              ? `🎉 Parabéns ${player}!`
+              : "⚡ Jogo da Memória Pokémon"}
+          </h1>
 
-        <div className="grid-game">{createCard}</div>
+          <p className="subtitle">
+            {gameFinished
+              ? `Você venceu em ${jogadas} jogadas`
+              : "Encontre todos os pares e entre para o Hall da Fama"}
+          </p>
+
+          {gameFinished && (
+            <button className="reset-btn" onClick={resetGame}>
+              🔄 Jogar Novamente
+            </button>
+          )}
+        </section>
+
+        <div className="grid-game">
+          {cartas.map((card) => {
+            const revealed = isCardVisible(card);
+
+            return (
+              <div
+                key={card.uniqueId}
+                className={`card-game ${revealed ? "reveal-card" : ""}`}
+                onClick={() => flipCard(card)}
+              >
+                <div
+                  className={`face front-grid ${
+                    matchedCards.includes(card.pokemon.name)
+                      ? "disabled-card"
+                      : ""
+                  }`}
+                  style={{
+                    backgroundImage: `url(${card.pokemon.sprites.front_default})`,
+                  }}
+                >
+                  <p className="name-pokemon">{card.pokemon.name}</p>
+                </div>
+
+                <div className="face back-grid"></div>
+              </div>
+            );
+          })}
+        </div>
       </main>
+
       <Footer />
     </div>
   );

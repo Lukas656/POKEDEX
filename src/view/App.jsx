@@ -26,6 +26,7 @@ function App() {
       setNotFound(false);
       const data = await getPokemons(itensPerPage, itensPerPage * page);
       const promises = data.results.map(async (pokemon) => {
+        console.log("fetchPokemons pokemon: ", pokemon);
         return await getPokemonData(pokemon.url);
       });
 
