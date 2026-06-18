@@ -12,7 +12,7 @@ function Game() {
   const [jogadas, setJogadas] = useState(0);
   const STORAGE_KEY = `pokemon-memory-game-${player}`;
   const handleLogout = () => {
-    localStorage.removeItem("pokemon-memory-game");
+    localStorage.removeItem(STORAGE_KEY);
     localStorage.removeItem("player");
   };
   const [selectedCards, setSelectedCards] = useState([]);
@@ -64,7 +64,7 @@ function Game() {
     }
 
     fetchPokemons();
-  }, [fetchPokemons]);
+  }, [fetchPokemons, STORAGE_KEY]);
 
   useEffect(() => {
     localStorage.setItem(
@@ -74,7 +74,7 @@ function Game() {
         matchedCards,
       }),
     );
-  }, [jogadas, matchedCards]);
+  }, [jogadas, matchedCards, STORAGE_KEY]);
 
   useEffect(() => {
     if (selectedCards.length !== 2) return;
